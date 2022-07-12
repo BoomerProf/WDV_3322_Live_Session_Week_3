@@ -41,6 +41,27 @@ router.post('/login', (req, res) => {
   // else
   // compare passwords using bcrypt get error or result of true or false
   // if error return err.message
+  const result = true;
+  if (result) {
+    // create my jwt
+    const token = jwt.sign(
+      {
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+      },
+      process.env.jwt
+    );
+
+    // return my response
+    res.status(201).json({
+      message: 'Authorization Successful',
+      token: token,
+      name: firstName,
+    });
+  } else {
+    res.status(401).json({ message: 'Authorization Failed' });
+  }
 });
 
 router.get('/profile', checkAuth, (req, res, next) => {
